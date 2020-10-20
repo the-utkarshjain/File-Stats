@@ -14,7 +14,14 @@ def make_gui():
             for i in file:
                 text.insert(END, i)
         file_stats()
+    def saveFiles():
 
+    
+        with open(root.filename,"r+") as file:
+            input=text.get("1.0",END)
+            file.seek(0)
+            file.write(re.sub(r"<string>ABC</string>(\s+)<string>(.*)</string>", r"<xyz>ABC</xyz>\1<xyz>\2</xyz>", input))
+            file.truncate()
 
     # Displays the file stats
     def file_stats():
@@ -41,6 +48,7 @@ def make_gui():
 
     welcome_label = Label(root, text="Welcome to File Stats!", width = 100, height = 4)
     file1_explorer = Button(root, text = "Browse Files", command = browseFiles)
+    file1_save = Button(root, text = "Save File", command = saveFiles)
     file1_refresh = Button(root, text = "Show Stats", command = file_stats)
 
     button_exit = Button(root, text = "Exit kardunga", command = exit)
@@ -51,6 +59,7 @@ def make_gui():
     welcome_label.pack()
     file1_explorer.pack()
     file1_refresh.pack()
+    file1_save.pack()
     button_exit.pack()
     message_1.pack()
     text.pack(side=RIGHT, expand=True)
