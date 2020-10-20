@@ -10,6 +10,9 @@ def make_gui():
     def browseFiles():
 
         root.filename = filedialog.askopenfilename(initialdir = "./", title = "Select a file", filetypes = (("Text files", "*.txt"),("all files","*.*")))
+        with open(root.filename,"r+") as file:
+            for i in file:
+                text.insert(END, i)
         file_stats()
 
 
@@ -43,10 +46,13 @@ def make_gui():
     button_exit = Button(root, text = "Exit kardunga", command = exit)
 
     message_1 = Message(root, text = "", width=500, justify = 'left')
+    text = Text(root, height=10, width=200) 
 
     welcome_label.pack()
     file1_explorer.pack()
     file1_refresh.pack()
     button_exit.pack()
     message_1.pack()
+    text.pack(side=RIGHT, expand=True)
     root.mainloop()
+
