@@ -1,20 +1,15 @@
-def search_keywords(keywords_filename,sentences):
+# Function to search for sentences with keywords
+def search_keywords(keywords_filename, sentences, originalsentences):
 
-	with open(keywords_filename, 'r') as in_file:
-		text = in_file.read()
-		search_keywords = text.split(",")
+	line = 1
+	msg = ""
 
-	# print(sentences)
-	# print(search_keywords)
+	text = open(keywords_filename, "r").read()
+	search_keywords = text.split(",")
 
-	sentences_with_keywords=[]
+	for i in range(len(sentences)):
+		if (any(map(lambda word: word.lower() in sentences[i], search_keywords))):
+			msg += str(line) + ". " + originalsentences[i].strip() + ".\n"
+			line += 1
 
-	for sentence in sentences:
-		if (any(map(lambda word: word in sentence, search_keywords))):
-			sentences_with_keywords.append(sentence)
-			if(len(sentences_with_keywords)==1):
-				msg = sentence + "\n"
-			else:
-				msg +=sentence + "\n"
-
-	return sentences_with_keywords, msg
+	return msg
