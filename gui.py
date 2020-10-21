@@ -40,6 +40,8 @@ def make_gui():
         message_1.config(text = msg, bg = 'grey')
 
     def show_hist():
+        f.clear()
+        file_stats()
         p = f.gca()
         x = (range(len(root.dict)))
         new_x = [2*i for i in x]
