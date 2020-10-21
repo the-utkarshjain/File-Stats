@@ -139,8 +139,8 @@ def make_gui():
     process = Button(root, text = "Process", command = processkeyword)
     button_exit = Button(root, text = "Exit", command = exit)
 
-    message_1 = Text(root, height=5, width=500, font=("TkDefaultFont", 15))
-    message_2 = tkscrolled.ScrolledText(root, height=6, width=500, font=("TkDefaultFont", 15))
+    message_1 = Text(root, height=5, width=500, font=("TkDefaultFont", 15), state='disabled')
+    message_2 = tkscrolled.ScrolledText(root, height=6, width=500, font=("TkDefaultFont", 15), state='disabled')
 
     welcome_label.pack()
     label1.pack(fill = X, padx = 12)
