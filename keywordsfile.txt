@@ -1,6 +1,1 @@
-mother
-happy
-love
-sing
-sons
-me
+mother,happy,love
