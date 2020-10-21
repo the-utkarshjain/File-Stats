@@ -6,6 +6,7 @@ from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationTool
 from collections import Counter
 from stopwords import *
 from numpy import *
+from keywords import *
 
 # Generates the GUI
 def make_gui():
@@ -20,8 +21,14 @@ def make_gui():
 
         root.keywordfilename = filedialog.askopenfilename(initialdir = "./", title = "Select a file", filetypes = (("Text files", "*.txt"),("all files","*.*")))
     
+    #Displays the sentences which have atleast one keyword
     def processkeyword():
-        #Enter you code here
+       
+        print(root.keywordfilename)
+        sentences_with_keywords, msg = search_keywords(root.keywordfilename,root.sentences)
+
+        message_2.config(text = msg, bg = 'white')
+
         return 0
 
     # Displays the file stats
@@ -93,16 +100,25 @@ def make_gui():
     canvas.get_tk_widget()["xscrollcommand"] = scrollbar.set
     canvas.get_tk_widget().pack()
 
-    welcome_label = Label(root, text="Welcome to File Stats!", width = 100, height = 4)
-    file1_explorer = Button(root, text = "Browse Files", command = browseFiles)
-    file1_refresh = Button(root, text = "Show Stats", command = file_stats)
-    button_hist = Button(root, text = "Show Histogram", command = show_hist)
-    button_exit = Button(root, text = "Exit", command = exit)
+    Frame1=Frame(root)
+    Frame1.pack(side='left',expand=True)
 
-    file2_explorer = Button(root, text = "Browse keyword file", command = keywordfile)
-    process = Button(root, text = "Process", command = processkeyword)
+    Frame2=Frame(root)
+    Frame2.pack(side='left',expand=True)
 
-    message_1 = Message(root, text = "", width=500, justify = 'left')
+
+    welcome_label = Label(Frame1, text="Welcome to File Stats!", width = 100, height = 4)
+    file1_explorer = Button(Frame1, text = "Browse Files", command = browseFiles)
+    file1_refresh = Button(Frame1, text = "Show Stats", command = file_stats)
+    button_hist = Button(Frame1, text = "Show Histogram", command = show_hist)
+    button_exit = Button(Frame1, text = "Exit", command = exit)
+
+    file2_explorer = Button(Frame1, text = "Browse keyword file", command = keywordfile)
+    process = Button(Frame1, text = "Process", command = processkeyword)
+
+    message_1 = Message(Frame1, text = "", width=500, justify = 'left')
+
+    message_2 = Message(Frame2, text = "", width=500, justify = 'left')
     
     welcome_label.pack()
     file1_explorer.pack()
@@ -112,5 +128,6 @@ def make_gui():
     process.pack()
     button_exit.pack()
     message_1.pack()
+    message_2.pack()
     
     root.mainloop()
