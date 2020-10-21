@@ -15,7 +15,14 @@ def make_gui():
 
         root.filename = filedialog.askopenfilename(initialdir = "./", title = "Select a file", filetypes = (("Text files", "*.txt"),("all files","*.*")))
         file_stats()
+    
+    def keywordfile():
 
+        root.keywordfilename = filedialog.askopenfilename(initialdir = "./", title = "Select a file", filetypes = (("Text files", "*.txt"),("all files","*.*")))
+    
+    def processkeyword():
+        #Enter you code here
+        return 0
 
     # Displays the file stats
     def file_stats():
@@ -90,7 +97,10 @@ def make_gui():
     file1_explorer = Button(root, text = "Browse Files", command = browseFiles)
     file1_refresh = Button(root, text = "Show Stats", command = file_stats)
     button_hist = Button(root, text = "Show Histogram", command = show_hist)
-    button_exit = Button(root, text = "Exit kardunga", command = exit)
+    button_exit = Button(root, text = "Exit", command = exit)
+
+    file2_explorer = Button(root, text = "Browse keyword file", command = keywordfile)
+    process = Button(root, text = "Process", command = processkeyword)
 
     message_1 = Message(root, text = "", width=500, justify = 'left')
     
@@ -98,6 +108,8 @@ def make_gui():
     file1_explorer.pack()
     file1_refresh.pack()
     button_hist.pack()
+    file2_explorer.pack()
+    process.pack()
     button_exit.pack()
     message_1.pack()
     
