@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import filedialog
 import string
 from collections import Counter
+from stopwords import *
 
 # Generates the GUI
 def make_gui():
@@ -25,12 +26,35 @@ def make_gui():
             root.words.extend([i.strip(string.punctuation) for i in processed_line.split()])
     
         root.dict = Counter(root.words)
+        most_common, least_common = most_least_frequency()
+
         msg = "Number of words: " + str(len(root.words)) + "\n" 
         msg +="Number of sentences: " + str(len(root.sentences)) + "\n"
         msg += "Number of newlines: " + str(file.count("\n")) + "\n"
-
+        msg += "Most occuring word: " + str(most_common) + "\n"
+        msg += "Least occuring word: " + str(least_common) + "\n"
+        
         message_1.config(text = msg, bg = 'grey')
 
+    def most_least_frequency():
+
+        sorted_list = root.dict.most_common()
+
+        for key, value in sorted_list:
+            if(key not in stopwords):
+                most_common = (key, value)
+                break
+            else:
+                continue
+
+        for key, value in reversed(sorted_list):
+            if(key not in stopwords):
+                least_common = (key, value)
+                break
+            else:
+                continue
+        
+        return most_common, least_common
 
     root = Tk()
     root.title('File Stats')
@@ -43,7 +67,7 @@ def make_gui():
     button_exit = Button(root, text = "Exit kardunga", command = exit)
 
     message_1 = Message(root, text = "", width=500, justify = 'left')
-
+    
     welcome_label.pack()
     file1_explorer.pack()
     file1_refresh.pack()
