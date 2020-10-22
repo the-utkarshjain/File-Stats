@@ -8,6 +8,6 @@ How to give input:
 
     Button1a: To explore the file system and choose a file.
     Button1b: To process the input file. Should also work in case the file is updated by the user.
-    Button2a: To explore the file system and choose a second file containing the keywords.
+    Button2a: To explore software the file system and choose a second file containing the keywords.
     Button2b: Process both the files and display the output.
 
