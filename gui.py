@@ -79,13 +79,15 @@ def make_gui():
         f.clear()
         p = f.gca()
         x = (range(len(root.dict)))
+        y = (range(max(root.dict.values())+1))
         new_x = [2*i for i in x]
         p.bar(new_x,root.dict.values(),width=0.4,align = "edge")
         p.set_ylabel('Frequency', fontsize = 10)
         p.set_xticks(new_x,minor=False)
-        p.set_xticklabels(root.dict.keys(),fontdict = None, minor =False)
+        p.set_yticks(y,minor=False)
+        p.set_xticklabels(root.dict.keys(),fontdict = None,rotation=90, minor =False)
         
-        canvas.draw()
+        ccanvas.draw()
 
 
     # Function to search the most and least frequent word
@@ -110,49 +112,68 @@ def make_gui():
                 continue
         
         return most_common, least_common
-
+    def onFrameConfigure(canvas):
+        '''Reset the scroll region to encompass the inner frame'''
+        canvas.configure(scrollregion=canvas.bbox("all"))
 
 
     root = Tk()
     root.title('File Stats')
     root.geometry("1500x1500")
+    canvas = Canvas(root, borderwidth=0, background="#ffffff")
+    frame = Frame(canvas, background="#ffffff")
+    vsb = Scrollbar(root, orient="vertical", command=canvas.yview)
+    canvas.configure(yscrollcommand=vsb.set)
+
+    vsb.pack(side="right", fill="y")
+    hsb = Scrollbar(root, orient="horizontal", command=canvas.xview)
+    canvas.configure(xscrollcommand=hsb.set)
+
+    hsb.pack(side="bottom", fill="x")
+    canvas.pack(side="left", fill="both", expand=True)
+    canvas.create_window((-10,-10), window=frame, anchor="nw")
+
+    frame.bind("<Configure>", lambda event, canvas=canvas: onFrameConfigure(canvas))
+
+    
 
     # Canvas for displaying historgram
-    f = Figure(figsize = (100,4), dpi = 100)
-    canvas = FigureCanvasTkAgg(f, master=root)
-    toolbar = NavigationToolbar2Tk(canvas, root) 
+    f = Figure(figsize = (10,5), dpi = 100)
+    ccanvas = FigureCanvasTkAgg(f, master=frame)
+    toolbar = NavigationToolbar2Tk(ccanvas, frame) 
     toolbar.update()
     scrollbar = Scrollbar(master=root, orient=HORIZONTAL)
     scrollbar.pack(side = BOTTOM, fill = X)
-    scrollbar["command"] = canvas.get_tk_widget().xview
-    canvas.get_tk_widget()["xscrollcommand"] = scrollbar.set
+    scrollbar["command"] = ccanvas.get_tk_widget().xview
+    ccanvas.get_tk_widget()["xscrollcommand"] = scrollbar.set
+   
 
     # Other components
-    welcome_label = Label(root, text="Welcome to File Stats!", width = 100, height = 1, font=("TkDefaultFont", 15, "bold"))
-    label1 = Label(root, text="Histogram", height = 1, anchor="w", font=("TkDefaultFont", 15, "bold"))
-    label2 = Label(root, text="Analysis for FILE - 1", height = 1, anchor="w", font=("TkDefaultFont", 15, "bold"))
-    label3 = Label(root, text="Analysis for FILE - 2", height = 1, anchor="w", font=("TkDefaultFont", 15, "bold"))
+    welcome_label = Label(frame, text="Welcome to File Stats!", width = 100, height = 1, font=("TkDefaultFont", 15, "bold"))
+    label1 = Label(frame, text="Histogram", height = 1, anchor="w", font=("TkDefaultFont", 15, "bold"))
+    label2 = Label(frame, text="Analysis for FILE - 1", height = 1, anchor="w", font=("TkDefaultFont", 15, "bold"))
+    label3 = Label(frame, text="Analysis for FILE - 2", height = 1, anchor="w", font=("TkDefaultFont", 15, "bold"))
 
-    file1_explorer = Button(root, text = "Browse input files", command = browseFiles)
-    file1_refresh = Button(root, text = "Show Stats", command = file_stats)
-    file2_explorer = Button(root, text = "Browse keyword file", command = keywordfile)
-    process = Button(root, text = "Process", command = processkeyword)
-    button_exit = Button(root, text = "Exit", command = exit)
+    file1_explorer = Button(frame, text = "Browse input files", command = browseFiles)
+    file1_refresh = Button(frame, text = "Show Stats", command = file_stats)
+    file2_explorer = Button(frame, text = "Browse keyword file", command = keywordfile)
+    process = Button(frame, text = "Process", command = processkeyword)
+    button_exit = Button(frame, text = "Exit", command = exit)
 
-    message_1 = Text(root, height=5, width=500, font=("TkDefaultFont", 15), state='disabled')
-    message_2 = tkscrolled.ScrolledText(root, height=6, width=500, font=("TkDefaultFont", 15), state='disabled')
+    message_1 = Text(frame, height=5, width=500, font=("TkDefaultFont", 15), state='disabled')
+    message_2 = tkscrolled.ScrolledText(frame, height=6, width=500, font=("TkDefaultFont", 15), state='disabled')
 
     welcome_label.pack()
     label1.pack(fill = X, padx = 12)
-    canvas.get_tk_widget().pack()
+    ccanvas.get_tk_widget().pack(padx = 12, anchor="w")
     label2.pack(fill = X, pady = 1, padx = 12)
-    message_1.pack(padx = 12)
+    message_1.pack(padx = 12, anchor="w")
     label3.pack(fill = X, pady = 2, padx = 12)
-    message_2.pack(padx = 12)
+    message_2.pack(padx = 12, anchor="w")
     file1_explorer.pack(side = LEFT, anchor = S, ipadx = 2, ipady = 2, padx = 3)
     file1_refresh.pack(side = LEFT, anchor = S, ipadx = 2, ipady = 2, padx = 3)
     file2_explorer.pack(side = LEFT, anchor = S, ipadx = 2, ipady = 2, padx = 3)
     process.pack(side = LEFT, anchor = S, ipadx = 2, ipady = 2, padx = 3)
     button_exit.pack(side = LEFT, anchor = S, ipadx = 2, ipady = 2, padx = 3)
-
+    #populate(frame)
     root.mainloop()
