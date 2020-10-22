@@ -89,7 +89,7 @@ def make_gui():
         p.set_ylabel('Frequency', fontsize = 10)
         p.set_xticks(new_x,minor=False)
         p.set_yticks(y,minor=False)
-        p.set_xticklabels(root.dict.keys(),fontdict = None,rotation=90, minor =False)
+        p.set_xticklabels(root.dict.keys(),fontdict = None, minor =False)
         
         ccanvas.draw()
 
