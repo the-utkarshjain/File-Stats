@@ -2,6 +2,7 @@ from tkinter import *
 import tkinter.scrolledtext as tkscrolled
 from tkinter import filedialog
 import string
+import os
 from matplotlib.figure import Figure
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg, NavigationToolbar2Tk) 
 from collections import Counter
@@ -30,6 +31,7 @@ def make_gui():
     def processkeyword():
        
         msg = search_keywords(root.keywordfilename, root.sentences, root.originalsentences)
+        label3.config(text = "Analysis for FILE - 2" + " <" + os.path.basename(root.keywordfilename) + " >")
 
         message_2.config(state='normal')
         message_2.delete('1.0', END)
@@ -59,6 +61,8 @@ def make_gui():
 
         most_common, least_common = most_least_frequency() # Function call to most_least_frequency()
         show_hist() # Function call to show_hist()
+        
+        label2.config(text = "Analysis for FILE - 1" + " <" + os.path.basename(root.filename) + " >")
 
         # Text to be printed in the stats message
         msg = "1. Number of words: " + str(len(root.words)) + "\n" 
