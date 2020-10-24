@@ -142,7 +142,7 @@ def make_gui():
     
 
     # Canvas for displaying historgram
-    f = Figure(figsize = (10,5), dpi = 100)
+    f = Figure(figsize = (55,5), dpi = 100)
     ccanvas = FigureCanvasTkAgg(f, master=frame)
     toolbar = NavigationToolbar2Tk(ccanvas, frame) 
     toolbar.update()
